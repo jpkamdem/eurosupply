@@ -48,6 +48,28 @@ services:
     depends_on:
       database:
         condition: service_healthy
+  server:
+    container_name: ${APP_NAME}-server
+    restart: always
+    image: ${APP_NAME}/spring:0.5
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: spring
+    ports:
+      - host_ip: 127.0.0.1
+        published: 7000
+        target: 3000
+        protocol: tcp
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - isolated
+    depends_on:
+      database:
+        condition: service_healthy
 networks:
   isolated:
     driver: bridge
