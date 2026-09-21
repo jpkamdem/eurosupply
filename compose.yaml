@@ -65,11 +65,41 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-fkS", "http://127.0.0.1:3000/health/ping"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     networks:
       - isolated
     depends_on:
       database:
         condition: service_healthy
+  web:
+    container_name: ${APP_NAME}-web
+    restart: always
+    image: ${APP_NAME}/angular:0.5
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: angular
+    ports:
+      - host_ip: 127.0.0.1
+        published: 8080
+        target: 4000
+        protocol: tcp
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000').then(res => console.log(res.status))"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - isolated
+    # depends_on:
+    #   database:
+    #     condition: service_healthy
 networks:
   isolated:
     driver: bridge
