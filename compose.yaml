@@ -97,9 +97,9 @@ services:
       start_period: 30s
     networks:
       - isolated
-    # depends_on:
-    #   database:
-    #     condition: service_healthy
+    depends_on:
+      database:
+        condition: service_healthy
 networks:
   isolated:
     driver: bridge
