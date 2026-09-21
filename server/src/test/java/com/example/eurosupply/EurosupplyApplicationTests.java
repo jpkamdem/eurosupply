@@ -1,0 +1,13 @@
+package com.example.eurosupply;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class EurosupplyApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
