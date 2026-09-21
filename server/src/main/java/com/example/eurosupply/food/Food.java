@@ -14,6 +14,7 @@ import lombok.Setter;
 @Table
 public class Food {
   @Id
+  @Getter 
   @GeneratedValue
   @Column(nullable = false, unique = true)
   private UUID id;
