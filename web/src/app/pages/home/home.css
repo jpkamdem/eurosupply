@@ -1,0 +1,19 @@
+nav {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav > div {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+
+a {
+  padding: 1em;
+  font-size: 2em;
+  background-color: rgb(243, 244, 244);
+  box-shadow: 5px 5px 5px black;
+}
