@@ -7,12 +7,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then((mod) => mod.Home),
   },
   {
-    path: 'nourishments',
+    path: 'aliments',
     title: 'Aliments',
     loadComponent: () => import ('./pages/nourishment/nourishment').then((mod) => mod.Nourishment)
   },
   {
-    path: 'materials',
+    path: 'materiels',
     title: 'Matériels',
     loadComponent: () => import ('./pages/materials/materials').then((mod) => mod.Materials)
   },

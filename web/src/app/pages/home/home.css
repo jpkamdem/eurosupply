@@ -12,8 +12,14 @@ nav > div {
 }
 
 a {
-  padding: 1em;
-  font-size: 2em;
-  background-color: rgb(243, 244, 244);
-  box-shadow: 5px 5px 5px black;
+  padding: var(--p-sm);
+  min-height: max-content;
+  font-size: var(--fs-md);
+  background: #fff;
+  box-shadow: 15px 15px var(--fourth-color);
+}
+
+a:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }

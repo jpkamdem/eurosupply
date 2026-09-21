@@ -2,6 +2,8 @@
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
+  text-decoration: none;
+  color: black;
 }
 
 /* 2. Remove default margin */
@@ -21,6 +23,7 @@ body {
   line-height: 1.5;
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  background-color: var(--first-color);
 }
 
 /* 6. Improve media defaults */
@@ -52,4 +55,40 @@ h1, h2, h3, h4, h5, h6 {
 */
 #root, #__next {
   isolation: isolate;
+}
+
+:root {
+/* color palette */
+--first-color: #f6f1d7;
+--second-color: #a3af99;
+--third-color: #7c9688;
+--fourth-color: #5a7c79;
+--fifth-color: #40626a;
+--sixth-color: #2f4858;
+
+/* spacing */
+--sp-xs: 4px;
+--sp-sm: 6px;
+--sp-md: 8px;
+--sp-lg: 16px;
+--sp-xl: 32px;
+
+/* font size */
+--fs-xs: 24px;
+--fs-sm: 32px;
+--fs-md: 48px;
+--fs-lg: 64px;
+--fs-xl: 128px;
+
+/* padding */
+--p-xs: 16px;
+--p-sm: 32px;
+--p-md: 48px;
+--p-lg: 64px;
+--p-xl: 128px;
+
+/* corner radius */
+--cr-sm: 6px;
+--cr-md: 12px;
+--cr-lg: 24px;
 }
