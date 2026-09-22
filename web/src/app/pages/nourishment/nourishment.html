@@ -1,1 +1,9 @@
-<p>nourishment works!</p>
+<div>
+  <app-quick-link path="aliments" textLink="aliments"/>
+</div>
+
+<div class="aliments-container">
+  @for (aliment of listAliments(); track $index) {
+    <div>{{ aliment }}</div>
+  }
+</div>

@@ -1,0 +1,4 @@
+<div>
+  <a [routerLink]="['/']">Accueil</a> >
+  <a [routerLink]="['/' + path()]" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">{{ textLink() }}</a>
+</div>
