@@ -1,12 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { CartService } from '../../services/cart-service';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { QuickLink } from '../quick-link/quick-link';
 
 @Component({
   selector: 'app-cart',
-  imports: [],
+  imports: [RouterLink, QuickLink],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
 export class Cart {
-  cartService = inject(CartService)
 }
