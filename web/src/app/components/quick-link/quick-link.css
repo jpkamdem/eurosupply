@@ -1,7 +1,16 @@
+.active-link {
+  text-decoration: underline;
+}
+
 .quick-link {
   position: absolute;
   left: 32px;
   top: 32px;
+}
+
+.quick-link>a:hover {
+  color: var(--fourth-color);
+  text-decoration: underline;
 }
 
 .cart-link {
@@ -10,9 +19,29 @@
   top: 32px;
 }
 
-.cart-link a {
-  position: relative;
-  display: inline-block;
+.clear-cart {
+  padding: 4px 10px;
+  border: none;
+  border: 1px solid var(--fourth-color);
+  background: var(--fourth-color);
+  color: white;
+  cursor: pointer;
+}
+
+.clear-cart:hover {
+  background: white;
+  color: var(--fourth-color);
+}
+
+.cart-link {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .cart-count {

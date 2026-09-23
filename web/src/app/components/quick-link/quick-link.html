@@ -17,4 +17,7 @@
       {{ cartService.count() }}
     </span>
     }</a>
+  @if (cartService.count() > 0) {
+  <button class="clear-cart" (click)="cartService.reset()">Vider</button>
+  }
 </div>

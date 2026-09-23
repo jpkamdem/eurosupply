@@ -19,6 +19,11 @@ export const routes: Routes = [
       import('./pages/materiels/materiels').then((mod) => mod.Materiels),
   },
   {
+    path: 'medicaments',
+    title: 'Médicaments',
+    loadComponent: () => import('./pages/medics/medics').then((mod) => mod.Medics)
+  },
+  {
     path: '**',
     title: 'Erreur',
     loadComponent: () =>

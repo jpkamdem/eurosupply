@@ -1,0 +1,12 @@
+<app-quick-link path="medicaments" textLink="Médicaments" />
+<div class="center-container">
+  <div class="medics-container">
+    @for (medic of medicsList(); track $index) {
+    <app-medic-item
+    [id]="medic.id"
+    [name]="medic.name"
+    [quantity]="medic.quantity"
+    [expiration]="medic.expiration" />
+    }
+  </div>
+</div>
