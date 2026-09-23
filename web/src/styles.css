@@ -67,18 +67,18 @@ h1, h2, h3, h4, h5, h6 {
 --sixth-color: #2f4858;
 
 /* spacing */
---sp-xs: 4px;
---sp-sm: 6px;
---sp-md: 8px;
---sp-lg: 16px;
---sp-xl: 32px;
+--sp-xs: 6px;
+--sp-sm: 12px;
+--sp-md: 24px;
+--sp-lg: 48px;
+--sp-xl: 96px;
 
 /* font size */
---fs-xs: 24px;
---fs-sm: 32px;
---fs-md: 48px;
---fs-lg: 64px;
---fs-xl: 128px;
+--fs-xs: 8px;
+--fs-sm: 12px;
+--fs-md: 24px;
+--fs-lg: 32px;
+--fs-xl: 64px;
 
 /* padding */
 --p-xs: 16px;

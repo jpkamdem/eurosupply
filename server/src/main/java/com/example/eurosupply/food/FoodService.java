@@ -28,6 +28,7 @@ public class FoodService {
     Food food = new Food();
     food.setName(newFood.getName());
     food.setQuantity(newFood.getQuantity());
+    food.setUnit(newFood.getUnit());
     foodRepository.save(food);
     return food;
   }
@@ -36,6 +37,7 @@ public class FoodService {
     Food foundFood = foodRepository.findById(id).orElseThrow();
     foundFood.setName(food.getName());
     foundFood.setQuantity(food.getQuantity());
+    foundFood.setUnit(food.getUnit());
     foodRepository.save(foundFood);
     return foundFood;
   }
