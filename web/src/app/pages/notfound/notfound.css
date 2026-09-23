@@ -1,0 +1,57 @@
+.notfound {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--first-color);
+}
+
+.notfound-card {
+  width: min(90%, 600px);
+  padding: 48px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  background: white;
+  box-shadow: 15px 15px var(--fourth-color);
+}
+
+.notfound-code {
+  color: var(--fifth-color);
+
+  font-size: clamp(6rem, 15vw, 10rem);
+  font-weight: 900;
+  line-height: 0.8;
+}
+
+.notfound h1 {
+  margin: 32px 0 12px;
+
+  color: var(--sixth-color);
+  font-size: var(--fs-lg);
+}
+
+.notfound p {
+  margin: 0 0 32px;
+
+  color: var(--fourth-color);
+  font-size: var(--fs-md);
+}
+
+a {
+  padding: var(--p-sm) 0;
+  min-height: max-content;
+  font-size: var(--fs-md);
+  background: #fff;
+}
+
+a:hover {
+  cursor: pointer;
+  color: var(--fourth-color);
+  text-decoration: underline;
+}
