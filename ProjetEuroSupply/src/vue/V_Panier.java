@@ -1,6 +1,6 @@
 
 package vue;
-
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ public class V_Panier extends JFrame implements ActionListener {
 
     private JTextField txtNomAliment;
     private JButton btnSupprimerAliment;
+    private JButton btnValiderPanier;
   
 
     private JButton btnRetour;
@@ -155,6 +156,7 @@ public class V_Panier extends JFrame implements ActionListener {
         scrollMateriels.setBounds(50, 300, 700, 150);
 
         add(scrollMateriels);
+        
 
 
         // -------------------------
@@ -189,6 +191,12 @@ public class V_Panier extends JFrame implements ActionListener {
         
 
         btnRetour.addActionListener(this);
+        
+        btnValiderPanier = new JButton("Valider le panier");
+        btnValiderPanier.setBounds(550, 20, 180, 40);
+        add(btnValiderPanier);
+
+        btnValiderPanier.addActionListener(this);
 
 
         setVisible(true);
@@ -265,7 +273,15 @@ public class V_Panier extends JFrame implements ActionListener {
                 );
             }
         }
+        else if (e.getSource() == btnValiderPanier) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Panier validé, veuillez récupérer la commande."
+            );
+        }
     }
+    
 }
 
 

@@ -179,16 +179,52 @@ public class Modele {
             try {
 
                 String query =
-                    "INSERT INTO panier "
-                    + "(idAliment, nom, quantité) VALUES ("
-                    + idAliment + ", '"
-                    + unNomAliment + "', "
-                    + quantité + ")";
+                    "SELECT quantité FROM alimentaire "
+                    + "WHERE id = " + idAliment;
 
-                int result =
-                        st.executeUpdate(query);
+                rs = st.executeQuery(query);
 
-                return result > 0;
+                if (rs.next()) {
+
+                    int quantiteDisponible =
+                            rs.getInt("quantité");
+
+                    if (quantité <= quantiteDisponible) {
+
+                        String insert =
+                            "INSERT INTO panier "
+                            + "(idAliment, nom, quantité) VALUES ("
+                            + idAliment + ", '"
+                            + unNomAliment + "', "
+                            + quantité + ")";
+
+                        int result =
+                                st.executeUpdate(insert);
+
+                        if (result > 0) {
+
+                            String update =
+                                "UPDATE alimentaire "
+                                + "SET quantité = quantité - "
+                                + quantité
+                                + " WHERE id = "
+                                + idAliment;
+
+                            st.executeUpdate(update);
+
+                            return true;
+                        }
+                    }
+                    else {
+
+                        System.out.println(
+                            "Stock insuffisant. Stock disponible : "
+                            + quantiteDisponible
+                        );
+
+                        return false;
+                    }
+                }
 
             } catch (SQLException erreur) {
 
@@ -200,7 +236,6 @@ public class Modele {
                 return false;
             }
         }
-
         else {
 
             System.out.println(
@@ -209,9 +244,9 @@ public class Modele {
 
             return false;
         }
-    }
-   
 
+        return false;
+    }
 
 
     
@@ -226,16 +261,52 @@ public class Modele {
             try {
 
                 String query =
-                    "INSERT INTO panier "
-                    + "(idMateriel, nom, quantité) VALUES ("
-                    + idMateriel + ", '"
-                    + unNomMateriel + "', "
-                    + quantité + ")";
+                    "SELECT quantité FROM materiel "
+                    + "WHERE id = " + idMateriel;
 
-                int result =
-                        st.executeUpdate(query);
+                rs = st.executeQuery(query);
 
-                return result > 0;
+                if (rs.next()) {
+
+                    int quantiteDisponible =
+                            rs.getInt("quantité");
+
+                    if (quantité <= quantiteDisponible) {
+
+                        String insert =
+                            "INSERT INTO panier "
+                            + "(idMateriel, nom, quantité) VALUES ("
+                            + idMateriel + ", '"
+                            + unNomMateriel + "', "
+                            + quantité + ")";
+
+                        int result =
+                                st.executeUpdate(insert);
+
+                        if (result > 0) {
+
+                            String update =
+                                "UPDATE materiel "
+                                + "SET quantité = quantité - "
+                                + quantité
+                                + " WHERE id = "
+                                + idMateriel;
+
+                            st.executeUpdate(update);
+
+                            return true;
+                        }
+                    }
+                    else {
+
+                        System.out.println(
+                            "Stock insuffisant. Stock disponible : "
+                            + quantiteDisponible
+                        );
+
+                        return false;
+                    }
+                }
 
             } catch (SQLException erreur) {
 
@@ -247,7 +318,6 @@ public class Modele {
                 return false;
             }
         }
-
         else {
 
             System.out.println(
@@ -256,54 +326,100 @@ public class Modele {
 
             return false;
         }
+
+        return false;
     }
-
-
-    public static boolean supprimerPanierMateriel(
-            String unNomPanierMateriel) {
+    public static boolean supprimerPanierMateriel(String unNomPanierMateriel) {
 
         try {
 
             String query =
-                "DELETE FROM panier "
+                "SELECT idMateriel, quantité "
+                + "FROM panier "
                 + "WHERE idMateriel IS NOT NULL "
                 + "AND nom = '"
                 + unNomPanierMateriel
                 + "'";
 
-            int result =
-                    st.executeUpdate(query);
+            rs = st.executeQuery(query);
 
-            return result > 0;
+            if (rs.next()) {
+
+                int idMateriel = rs.getInt("idMateriel");
+                int quantité = rs.getInt("quantité");
+
+                String update =
+                    "UPDATE materiel "
+                    + "SET quantité = quantité + "
+                    + quantité
+                    + " WHERE id = "
+                    + idMateriel;
+
+                st.executeUpdate(update);
+
+                String delete =
+                    "DELETE FROM panier "
+                    + "WHERE idMateriel = "
+                    + idMateriel;
+
+                int result =
+                        st.executeUpdate(delete);
+
+                return result > 0;
+            }
 
         } catch (SQLException erreur) {
 
             System.out.println(
-                "Erreur lors de la suppression du materiel : "
+                "Erreur lors de la suppression du matériel : "
                 + erreur.getMessage()
             );
 
             return false;
         }
+
+        return false;
     }
 
 
-    public static boolean supprimerPanierAliment(
-            String unNomPanierAliment) {
+    public static boolean supprimerPanierAliment(String unNomPanierAliment) {
 
         try {
 
             String query =
-                "DELETE FROM panier "
+                "SELECT idAliment, quantité "
+                + "FROM panier "
                 + "WHERE idAliment IS NOT NULL "
                 + "AND nom = '"
                 + unNomPanierAliment
                 + "'";
 
-            int result =
-                    st.executeUpdate(query);
+            rs = st.executeQuery(query);
 
-            return result > 0;
+            if (rs.next()) {
+
+                int idAliment = rs.getInt("idAliment");
+                int quantité = rs.getInt("quantité");
+
+                String update =
+                    "UPDATE alimentaire "
+                    + "SET quantité = quantité + "
+                    + quantité
+                    + " WHERE id = "
+                    + idAliment;
+
+                st.executeUpdate(update);
+
+                String delete =
+                    "DELETE FROM panier "
+                    + "WHERE idAliment = "
+                    + idAliment;
+
+                int result =
+                        st.executeUpdate(delete);
+
+                return result > 0;
+            }
 
         } catch (SQLException erreur) {
 
@@ -314,8 +430,9 @@ public class Modele {
 
             return false;
         }
-    }
 
+        return false;
+    }
 
     public static ArrayList<Materiel> afficherPanierMateriels() {
 
