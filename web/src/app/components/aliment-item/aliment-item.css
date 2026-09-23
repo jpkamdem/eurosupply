@@ -1,0 +1,31 @@
+.item {
+  margin-inline: var(--sp-lg);
+  min-height: max-content;
+  font-size: var(--fs-sm);
+  background: #fff;
+  box-shadow: 15px 15px var(--fourth-color);
+  min-width: 180px;
+}
+
+.item-name {
+  padding: var(--sp-sm);
+  font-weight: bold;
+  font-size: var(--fs-md);
+}
+
+.item-quantity {
+  padding: var(--sp-sm);
+  font-size: var(--fs-sm);
+}
+
+.item-expiration {
+  padding: var(--sp-sm);
+  font-size: var(--fs-sm);
+}
+
+.btn-container {
+  padding: var(--sp-sm);
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}

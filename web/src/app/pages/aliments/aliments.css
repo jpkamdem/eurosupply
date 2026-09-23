@@ -1,0 +1,7 @@
+.aliments-container {
+  width: 80%;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10% 2%;
+}
