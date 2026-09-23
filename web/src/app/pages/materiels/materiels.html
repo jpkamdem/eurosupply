@@ -1,1 +1,11 @@
 <app-quick-link path="materiels" textLink="Matériels"/>
+<div class="center-container">
+  <div class="materiels-container">
+    @for (materiel of materielsList(); track $index) {
+      <app-materiel-item
+      [id]="materiel.id"
+      [name]="materiel.name"
+      [quantity]="materiel.quantity"/>
+    }
+  </div>
+</div>

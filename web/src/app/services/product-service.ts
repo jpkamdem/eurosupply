@@ -1,30 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+
 import { toSignal } from '@angular/core/rxjs-interop';
-import type { Aliment } from '../types/Aliment';
-import type { Materiel } from '../types/Materiel';
-import type { Medic } from '../types/Medic';
+import type { Aliment, Materiel, Medic, Product } from '../types/Product';
 
-type Product = Aliment | Medic | Materiel;
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ProductService {
   #http = inject(HttpClient);
 
   #products = signal<Product[]>([]);
 
-  readonly products = this.#products.asReadonly();
-
-  getProduct<T extends Product>(url: string) {
-    return toSignal(
-      this.#http.get<T[]>(url),
-      { initialValue: [] }
-    )
+  #get<T extends Product>(url: string) {
+    return toSignal(this.#http.get<T[]>(`http://127.0.0.1:3000${url}`), { initialValue: [] })
   }
 
-  addProduct(product: Product) {
-    this.#products.update((products) => [...products, product]);
+  readonly products = this.#products.asReadonly();
+
+  getAliments() {
+    return this.#get<Aliment>('/api/foods/')
+  }
+
+  getMateriels() {
+    return this.#get<Materiel>('/api/materials/')
+  }
+
+  getMedics() {
+    return this.#get<Medic>('/api/medics/')
   }
 }

@@ -1,0 +1,16 @@
+.center-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.materiels-container {
+  height: 60%;
+  width: 80%;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-lg) var(--sp-lg);
+  justify-content: center;
+  overflow: scroll;
+}

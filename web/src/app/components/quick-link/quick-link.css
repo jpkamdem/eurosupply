@@ -1,3 +1,39 @@
-.active-link {
-  text-decoration: underline;
+.quick-link {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+}
+
+.cart-link {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+}
+
+.cart-link a {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: red;
+  color: white;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
 }

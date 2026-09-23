@@ -1,9 +1,0 @@
-import type { Unit } from "./Unit";
-
-export interface Aliment {
-  id: string;
-  name: string;
-  quantity: number;
-  unit: Unit
-  expiration: Date;
-}

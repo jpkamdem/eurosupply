@@ -3,12 +3,14 @@
   display: flex;
   align-items: center;
 }
+
 .aliments-container {
-  height: 96%;
-  width: 90%;
+  height: 60%;
+  width: 80%;
   margin-inline: auto;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-lg) var(--sp-lg);
   justify-content: center;
+  overflow: scroll;
 }
