@@ -70,8 +70,8 @@ h1, h2, h3, h4, h5, h6 {
 --sp-xs: 6px;
 --sp-sm: 12px;
 --sp-md: 24px;
---sp-lg: 48px;
---sp-xl: 96px;
+--sp-lg: 36px;
+--sp-xl: 64px;
 
 /* font size */
 --fs-xs: 8px;

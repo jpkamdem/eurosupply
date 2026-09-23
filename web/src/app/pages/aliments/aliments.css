@@ -1,7 +1,14 @@
+.center-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 .aliments-container {
-  width: 80%;
+  height: 96%;
+  width: 90%;
   margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10% 2%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-lg) var(--sp-lg);
+  justify-content: center;
 }

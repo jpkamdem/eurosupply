@@ -1,31 +1,34 @@
 .item {
-  margin-inline: var(--sp-lg);
+  /* margin-inline: var(--sp-lg);
   min-height: max-content;
   font-size: var(--fs-sm);
   background: #fff;
   box-shadow: 15px 15px var(--fourth-color);
-  min-width: 180px;
+  min-width: 180px; */
+  border: 1px solid black;
+  padding: 0 28px 0 28px;
+  background: #ffffff;
+   box-shadow: 15px 15px var(--fourth-color);
 }
 
 .item-name {
-  padding: var(--sp-sm);
-  font-weight: bold;
+  margin: var(--sp-xs) 0 var(--sp-xs);
   font-size: var(--fs-md);
+  font-weight: 600;
 }
 
 .item-quantity {
-  padding: var(--sp-sm);
-  font-size: var(--fs-sm);
+  /* padding: var(--sp-sm);
+  font-size: var(--fs-sm); */
 }
 
 .item-expiration {
-  padding: var(--sp-sm);
-  font-size: var(--fs-sm);
+  /* padding: var(--sp-sm);
+  font-size: var(--fs-sm); */
 }
 
 .btn-container {
-  padding: var(--sp-sm);
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
+   margin: var(--sp-lg) 0 var(--sp-lg);
+   display: flex;
+   justify-content: space-evenly;
 }
