@@ -1,1 +1,7 @@
-<app-quick-link path="aliments" textLink="Aliments"/>
+<app-quick-link path="aliments" textLink="Aliments" />
+
+<div>
+  @for (aliment of alimentsList(); track $index) {
+    <p>{{ aliment.name }}</p>
+  }
+</div>

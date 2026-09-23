@@ -1,5 +1,6 @@
 package com.example.eurosupply.food;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Table
 public class Food {
   @Id
-  @Getter 
+  @Getter
   @GeneratedValue
   @Column(nullable = false, unique = true)
   private UUID id;
@@ -28,4 +29,8 @@ public class Food {
   @Setter
   @Column(nullable = false)
   private short quantity;
+
+  @Getter
+  @Column(nullable = false, insertable = false, updatable = false)
+  private Instant expiration;
 }
