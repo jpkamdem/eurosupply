@@ -50,8 +50,30 @@ spring:
 
 ### API Endpoints
 
-- GET /api/food/
-- GEt /api/food/{id}
-- POST /api/food/
-- PUT /api/food/{id}
-- DELETE /api/food/{id}
+#### Healthcheck
+
+- GET /health/ping
+
+#### Food
+
+- GET /api/foods/
+- GET /api/foods/{id}
+- POST /api/foods/
+- PATCH /api/foods/{id}
+- DELETE /api/foods/{id}
+
+#### Material
+
+- GET /api/materials/
+- GET /api/materials/{id}
+- POST /api/materials/
+- PATCH /api/materials/{id}
+- DELETE /api/materials/{id}
+
+#### Medic
+
+- GET /api/medics/
+- GET /api/medics/{id}
+- POST /api/medics/
+- PATCH /api/medics/{id}
+- DELETE /api/medics/{id}

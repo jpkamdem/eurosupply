@@ -38,7 +38,7 @@ public class SecurityConfig {
         corsRegistry
             .addMapping("/api/**")
             .allowedOrigins(origin, secondOrigin, thirdOrigin)
-            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedMethods("GET", "POST", "PATCH", "DELETE")
             .allowedHeaders("Content-Type");
       }
     };

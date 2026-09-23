@@ -33,11 +33,11 @@ public class FoodService {
     return food;
   }
 
-  public Food update(FoodDTO food, UUID id) throws NoSuchElementException {
+  public Food update(FoodPatchDTO foodDTO, UUID id) throws NoSuchElementException, IllegalArgumentException {
     Food foundFood = foodRepository.findById(id).orElseThrow();
-    foundFood.setName(food.getName());
-    foundFood.setQuantity(food.getQuantity());
-    foundFood.setUnit(food.getUnit());
+    foodDTO.getName().ifPresent(foundFood::setName);
+    foodDTO.getQuantity().ifPresent(foundFood::setQuantity);
+    foodDTO.getUnit().ifPresent(foundFood::setUnit);
     foodRepository.save(foundFood);
     return foundFood;
   }

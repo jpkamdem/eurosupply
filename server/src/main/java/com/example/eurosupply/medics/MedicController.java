@@ -1,4 +1,4 @@
-package com.example.eurosupply.food;
+package com.example.eurosupply.medics;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,42 +18,42 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/foods")
-public class FoodController {
-  private final FoodService foodService;
+@RequestMapping("/api/medics")
+public class MedicController {
+  private final MedicService medicService;
 
-  public FoodController(FoodService foodService) {
-    this.foodService = foodService;
+  public MedicController(MedicService medicService) {
+    this.medicService = medicService;
   }
 
   @GetMapping("/")
   ResponseEntity<?> index() {
-    List<Food> foods = foodService.index();
-    return new ResponseEntity<>(foods, HttpStatus.OK);
+    List<Medic> medics = medicService.index();
+    return new ResponseEntity<>(medics, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
   ResponseEntity<?> show(@PathVariable UUID id) throws NoSuchElementException {
-    Food foundFood = foodService.show(id);
-    return new ResponseEntity<>(foundFood, HttpStatus.OK);
+    Medic medic = medicService.show(id);
+    return new ResponseEntity<>(medic, HttpStatus.OK);
   }
 
   @PostMapping("/")
-  ResponseEntity<?> store(@RequestBody @Valid FoodDTO foodDTO) throws IllegalArgumentException {
-    Food newFood = foodService.store(foodDTO);
-    return new ResponseEntity<>(newFood, HttpStatus.OK);
+  ResponseEntity<?> store(@RequestBody @Valid MedicDTO medicDTO) throws IllegalArgumentException {
+    Medic medic = medicService.store(medicDTO);
+    return new ResponseEntity<>(medic, HttpStatus.OK);
   }
 
   @PatchMapping("/{id}")
-  ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid FoodPatchDTO foodDTO)
+  ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid MedicPatchDTO medicDTO)
       throws NoSuchElementException, IllegalArgumentException {
-    Food food = foodService.update(foodDTO, id);
-    return new ResponseEntity<>(food, HttpStatus.OK);
+    Medic medic = medicService.update(medicDTO, id);
+    return new ResponseEntity<>(medic, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
-  ResponseEntity<?> delete(@PathVariable UUID id) throws NoSuchElementException {
-    foodService.delete(id);
+  ResponseEntity<?> delete(@PathVariable UUID id) {
+    medicService.delete(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
