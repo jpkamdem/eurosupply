@@ -18,5 +18,9 @@ public class C_Aliments {
 	 public boolean supprimerPanierAliment(String nom) {
 	        return Modele.supprimerPanierAliment(nom);
 	    }
+	 public int getQuantiteTotaleAliments() {
+
+		    return Modele.getQuantiteTotaleAliments();
+		}
 	
 }

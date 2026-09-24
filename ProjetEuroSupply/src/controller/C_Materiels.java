@@ -19,5 +19,9 @@ public boolean supprimerPanierMateriel(String unNomPanierMateriel) {
 public ArrayList<Materiel> afficherPanierMateriels() {
     return Modele.afficherPanierMateriels();
 }
+public int getQuantiteTotaleMateriels() {
+
+    return Modele.getQuantiteTotaleMateriels();
+}
 	
 }

@@ -1,4 +1,3 @@
-
 package vue;
 
 import java.awt.event.ActionEvent;
@@ -13,46 +12,50 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.C_Aliments;
-import modele.Aliments;
+import controller.C_Medical;
+import modele.Medical;
 
-public class V_Aliment extends JFrame implements ActionListener {
+public class V_Medical extends JFrame implements ActionListener {
 
-    private C_Aliments alimentController;
+    private C_Medical medicalController;
 
     private JLabel lblTitre;
     private JLabel lblNom;
 
-    private JTable tableauAliments;
+    private JTable tableauMedicaux;
     private JScrollPane scrollPane;
 
     private JButton btnRetour;
     private JButton btnConsulterMateriels;
-    private JButton btnConsulterMedicaux;
-    private JButton btnAjouterAliment;
+    private JButton btnConsulterAliments;
+    private JButton btnAjouterMedical;
     private JButton btnPanier;
 
     private JTextField txtQuantite;
     private JTextField txtNom;
 
-    private ArrayList<Aliments> lesAliments;
+    private ArrayList<Medical> lesMedicaux;
 
 
-    public V_Aliment() {
+    public V_Medical() {
 
-        alimentController = new C_Aliments();
+        medicalController = new C_Medical();
 
-        setTitle("Gestion des aliments");
+        setTitle("Gestion des médicaux");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
 
-        lblTitre = new JLabel("Catalogue des aliments");
+        // Titre
+
+        lblTitre = new JLabel("Catalogue des médicaux");
         lblTitre.setBounds(300, 30, 250, 40);
         add(lblTitre);
 
+
+        // Tableau
 
         String[] colonnes = {
             "ID",
@@ -64,29 +67,32 @@ public class V_Aliment extends JFrame implements ActionListener {
         DefaultTableModel modeleTableau =
                 new DefaultTableModel(colonnes, 0);
 
-        lesAliments = alimentController.afficherAliment();
+        lesMedicaux = medicalController.afficherMedical();
 
-        for (Aliments aliment : lesAliments) {
+
+        for (Medical medical : lesMedicaux) {
 
             Object[] ligne = {
-                aliment.getIdAliment(),
-                aliment.getNom(),
-                aliment.getQuantité(),
-                aliment.getDate_P()
+                medical.getIdMedical(),
+                medical.getNom(),
+                medical.getQuantité(),
+                medical.getDatePeremption()
             };
 
             modeleTableau.addRow(ligne);
         }
 
 
-        tableauAliments = new JTable(modeleTableau);
+        tableauMedicaux = new JTable(modeleTableau);
 
-        scrollPane = new JScrollPane(tableauAliments);
+        scrollPane = new JScrollPane(tableauMedicaux);
         scrollPane.setBounds(50, 100, 700, 280);
         add(scrollPane);
 
 
-        lblNom = new JLabel("Nom de l'aliment :");
+        // Nom
+
+        lblNom = new JLabel("Nom du médical :");
         lblNom.setBounds(50, 400, 120, 30);
         add(lblNom);
 
@@ -95,6 +101,8 @@ public class V_Aliment extends JFrame implements ActionListener {
         txtNom.setBounds(170, 400, 150, 30);
         add(txtNom);
 
+
+        // Quantité
 
         JLabel lblQuantite = new JLabel("Quantité :");
         lblQuantite.setBounds(330, 400, 70, 30);
@@ -106,11 +114,15 @@ public class V_Aliment extends JFrame implements ActionListener {
         add(txtQuantite);
 
 
-        btnAjouterAliment = new JButton("Ajouter");
-        btnAjouterAliment.setBounds(490, 400, 100, 30);
-        add(btnAjouterAliment);
-        btnAjouterAliment.addActionListener(this);
+        // Ajouter
 
+        btnAjouterMedical = new JButton("Ajouter");
+        btnAjouterMedical.setBounds(490, 400, 100, 30);
+        add(btnAjouterMedical);
+        btnAjouterMedical.addActionListener(this);
+
+
+        // Panier
 
         btnPanier = new JButton("Panier");
         btnPanier.setBounds(600, 400, 100, 30);
@@ -118,23 +130,28 @@ public class V_Aliment extends JFrame implements ActionListener {
         btnPanier.addActionListener(this);
 
 
+        // Retour
+
         btnRetour = new JButton("Retour");
         btnRetour.setBounds(50, 450, 100, 40);
         add(btnRetour);
         btnRetour.addActionListener(this);
 
 
-        btnConsulterMateriels = new JButton("Consulter Matériels");
+        // Consulter les matériels
+
+        btnConsulterMateriels = new JButton("Consulter Materiels");
         btnConsulterMateriels.setBounds(170, 450, 150, 40);
         add(btnConsulterMateriels);
         btnConsulterMateriels.addActionListener(this);
 
 
-        // Nouveau bouton pour aller vers les médicaux
-        btnConsulterMedicaux = new JButton("Consulter Médicaux");
-        btnConsulterMedicaux.setBounds(330, 450, 150, 40);
-        add(btnConsulterMedicaux);
-        btnConsulterMedicaux.addActionListener(this);
+        // Consulter les aliments
+
+        btnConsulterAliments = new JButton("Consulter Aliments");
+        btnConsulterAliments.setBounds(330, 450, 150, 40);
+        add(btnConsulterAliments);
+        btnConsulterAliments.addActionListener(this);
 
 
         setVisible(true);
@@ -144,11 +161,16 @@ public class V_Aliment extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // Retour
+
         if (e.getSource() == btnRetour) {
 
             new Accueil();
             dispose();
         }
+
+
+        // Aller vers les matériels
 
         else if (e.getSource() == btnConsulterMateriels) {
 
@@ -156,14 +178,19 @@ public class V_Aliment extends JFrame implements ActionListener {
             dispose();
         }
 
-        // Nouveau bouton vers la vue Médical
-        else if (e.getSource() == btnConsulterMedicaux) {
 
-            new V_Medical();
+        // Aller vers les aliments
+
+        else if (e.getSource() == btnConsulterAliments) {
+
+            new V_Aliment();
             dispose();
         }
 
-        else if (e.getSource() == btnAjouterAliment) {
+
+        // Ajouter au panier
+
+        else if (e.getSource() == btnAjouterMedical) {
 
             String nom = txtNom.getText();
 
@@ -171,39 +198,45 @@ public class V_Aliment extends JFrame implements ActionListener {
 
             boolean trouve = false;
 
+
             if (!quantiteTexte.isEmpty()) {
 
                 int quantité = Integer.parseInt(quantiteTexte);
 
-                for (Aliments aliment : lesAliments) {
 
-                    if (aliment.getNom().equalsIgnoreCase(nom)) {
+                for (Medical medical : lesMedicaux) {
+
+                    if (medical.getNom().equalsIgnoreCase(nom)) {
 
                         boolean resultat =
-                                alimentController.ajouterPanier(
-                                    aliment.getIdAliment(),
-                                    aliment.getNom(),
+                                medicalController.ajouterPanierMedical(
+                                    medical.getIdMedical(),
+                                    medical.getNom(),
                                     quantité
                                 );
+
 
                         if (resultat) {
 
                             System.out.println(
-                                "Aliment ajouté au panier : "
-                                + aliment.getNom()
+                                "Médical ajouté au panier : "
+                                + medical.getNom()
                                 + " | Quantité : "
                                 + quantité
                             );
                         }
 
+
                         trouve = true;
+
                         break;
                     }
                 }
 
+
                 if (!trouve) {
 
-                    System.out.println("Aliment introuvable.");
+                    System.out.println("Médical introuvable.");
                 }
             }
 
@@ -213,6 +246,9 @@ public class V_Aliment extends JFrame implements ActionListener {
             }
         }
 
+
+        // Panier
+
         else if (e.getSource() == btnPanier) {
 
             new V_Panier();
@@ -220,4 +256,3 @@ public class V_Aliment extends JFrame implements ActionListener {
         }
     }
 }
-
