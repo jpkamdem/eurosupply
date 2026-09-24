@@ -45,15 +45,15 @@ export class ProductService {
     return this.#get<Medic>('/api/medics/')
   }
 
-  patchAliments(id: string, body: Partial<Product>) {
+  patchAliments(id: string, body: Partial<Aliment>) {
     return this.#patch<Aliment>(`/api/medics/${id}`, body);
   }
 
-  patchMateriels(id: string, body: Partial<Product>) {
+  patchMateriels(id: string, body: Partial<Materiel>) {
     return this.#patch<Materiel>(`/api/materials/${id}`, body);
   }
 
-  patchMedics(id: string, body: Partial<Product>) {
+  patchMedics(id: string, body: Partial<Medic>) {
     return this.#patch<Medic>(`/api/medics/${id}`, body);
   }
 }
