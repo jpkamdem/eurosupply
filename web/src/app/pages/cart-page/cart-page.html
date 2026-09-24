@@ -2,18 +2,21 @@
 
 <div class="center-container">
   @if (cartService.count() > 0) {
-  <div class="cart-container">
-    <div class="cart-list">
-      @for (product of cartService.cart(); track $index) {
-        <div [id]="product.id">
-          <p>{{ product.name }}</p>
-          <p>Quantité disponible : {{product.quantity }}</p>
-        </div>
-      }
+    <div class="cart-container">
+      <div class="cart-list">
+
+        @for (product of uniqueProduct(); track product.id) {
+          <div [id]="product.id" class="cart-item">
+            <p>{{ product.name }}</p>
+            <p>x {{ itemCount(product) }}</p>
+          </div>
+        }
+
+      </div>
+
+      <button>Valider</button>
     </div>
-    <button>Valider</button>
-  </div>
   } @else {
-  <p>Panier vide !</p>
+    <p class="empty-cart">Panier vide.</p>
   }
 </div>

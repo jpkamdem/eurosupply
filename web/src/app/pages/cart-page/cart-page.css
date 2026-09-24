@@ -1,9 +1,25 @@
 .center-container {
-  border: 1px solid red;
-  height: 100%;
-  width: 75%;
+  margin-top: 80px;
+  height: 65vh;
+  width: 70%;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.cart-item {
+  padding: var(--sp-sm);
+  margin: var(--sp-md) 0;
+  background-color: white;
+  box-shadow: 5px 5px var(--fourth-color);
+}
+
+.empty-cart {
+  font-size: var(--fs-lg);
+  padding: var(--sp-lg);
+  background-color: white;
+  box-shadow: 15px 15px var(--fourth-color);
 }

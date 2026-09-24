@@ -15,7 +15,7 @@ export class CartService {
 
 
   count() {
-    return this.#cart().reduce((count: number) => count + 1, 0)
+    return this.#cart().reduce((count) => count + 1, 0)
   }
 
   reset() {
