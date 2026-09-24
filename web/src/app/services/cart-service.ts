@@ -13,7 +13,6 @@ export class CartService {
     this.#cart.update((value: Product[]) => [...this.#cart(), item])
   }
 
-
   count() {
     return this.#cart().reduce((count) => count + 1, 0)
   }

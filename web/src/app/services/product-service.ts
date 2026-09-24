@@ -16,6 +16,10 @@ export class ProductService {
     return toSignal(this.#http.get<T[]>(`http://127.0.0.1:3000${url}`), { initialValue: [] })
   }
 
+  #patch<T extends Product>(url: string, body: Partial<Product>) {
+    return toSignal(this.#http.patch<T>(`http://127.0.0.1:3000${url}`, body))
+  }
+
   readonly products = this.#products.asReadonly();
 
   isProductAvailable(itemId: string, itemQty: number) {
@@ -23,6 +27,10 @@ export class ProductService {
       .cart()
       .filter((product) => product.id == itemId).length;
     return itemsInCartCount >= itemQty;
+  }
+
+  filterCart(id: string) {
+    return this.#cartService.cart().filter((item) => item.id == id);
   }
 
   getAliments() {
@@ -35,5 +43,17 @@ export class ProductService {
 
   getMedics() {
     return this.#get<Medic>('/api/medics/')
+  }
+
+  patchAliments(id: string, body: Partial<Product>) {
+    return this.#patch<Aliment>(`/api/medics/${id}`, body);
+  }
+
+  patchMateriels(id: string, body: Partial<Product>) {
+    return this.#patch<Materiel>(`/api/materials/${id}`, body);
+  }
+
+  patchMedics(id: string, body: Partial<Product>) {
+    return this.#patch<Medic>(`/api/medics/${id}`, body);
   }
 }
