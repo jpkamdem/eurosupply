@@ -1,1 +1,19 @@
-<p>cart-page works!</p>
+<app-quick-link path="panier" textLink="Mon panier" />
+
+<div class="center-container">
+  @if (cartService.count() > 0) {
+  <div class="cart-container">
+    <div class="cart-list">
+      @for (product of cartService.cart(); track $index) {
+        <div [id]="product.id">
+          <p>{{ product.name }}</p>
+          <p>Quantité disponible : {{product.quantity }}</p>
+        </div>
+      }
+    </div>
+    <button>Valider</button>
+  </div>
+  } @else {
+  <p>Panier vide !</p>
+  }
+</div>

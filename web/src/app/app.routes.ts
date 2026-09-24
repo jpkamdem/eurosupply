@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/medics/medics').then((mod) => mod.Medics)
   },
   {
+    path: 'panier',
+    title: 'Panier',
+    loadComponent: () => import('./pages/cart-page/cart-page').then((mod) => mod.CartPage)
+  },
+  {
     path: '**',
     title: 'Erreur',
     loadComponent: () =>

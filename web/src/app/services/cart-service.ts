@@ -7,9 +7,12 @@ import { Product } from '../types/Product';
 export class CartService {
   #cart = signal<Product[]>([]);
 
+  readonly cart = this.#cart.asReadonly();
+
   addToCart(item: Product) {
     this.#cart.update((value: Product[]) => [...this.#cart(), item])
   }
+
 
   count() {
     return this.#cart().reduce((count: number) => count + 1, 0)
