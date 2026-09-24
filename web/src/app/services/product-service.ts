@@ -3,10 +3,12 @@ import { inject, Injectable, signal } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { Aliment, Materiel, Medic, Product } from '../types/Product';
+import { CartService } from './cart-service';
 
 @Injectable()
 export class ProductService {
   #http = inject(HttpClient);
+  #cartService = inject(CartService)
 
   #products = signal<Product[]>([]);
 
@@ -15,6 +17,13 @@ export class ProductService {
   }
 
   readonly products = this.#products.asReadonly();
+
+  isProductAvailable(itemId: string, itemQty: number) {
+    const itemsInCartCount = this.#cartService
+      .cart()
+      .filter((product) => product.id == itemId).length;
+    return itemsInCartCount >= itemQty;
+  }
 
   getAliments() {
     return this.#get<Aliment>('/api/foods/')
