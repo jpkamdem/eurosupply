@@ -2,7 +2,7 @@ name: ${APP_NAME}
 services:
   database:
     container_name: ${APP_NAME}-database
-    restart: always
+    restart: unless-stopped
     image: postgres:18.6-trixie@sha256:1267c7e692de235fda2a50dbcdbcbca4672ea6a0298576a6bd9d07cafc319b32
     ports:
       - host_ip: 127.0.0.1
@@ -50,7 +50,7 @@ services:
         condition: service_healthy
   server:
     container_name: ${APP_NAME}-server
-    restart: always
+    restart: unless-stopped
     image: ${APP_NAME}/spring:0.5
     build:
       context: ./
@@ -66,7 +66,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD", "curl", "-fkS", "http://127.0.0.1:3000/health/ping"]
+      test: ["CMD", "curl", "-fkS", "http://127.0.0.1:3000/actuator/health"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -78,7 +78,7 @@ services:
         condition: service_healthy
   web:
     container_name: ${APP_NAME}-web
-    restart: always
+    restart: unless-stopped
     image: ${APP_NAME}/angular:0.5
     build:
       context: ./
@@ -100,9 +100,39 @@ services:
     depends_on:
       database:
         condition: service_healthy
+  monitoring-engine:
+    container_name: ${APP_NAME}-monitoring-engine
+    restart: unless-stopped
+    image: prom/prometheus:main-distroless@sha256:a9581cffe6395a275d5712645284df1933a526aaf3d4c53aff46934ef1b8ac19
+    ports:
+      - host_ip: 127.0.0.1
+        published: 9090
+        target: 9090
+        protocol: tcp
+    networks:
+      - isolated
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-storage:/prometheus
+  monitoring:
+    container_name: ${APP_NAME}-monitoring
+    restart: unless-stopped
+    image: grafana/grafana:nightly-distroless-slim@sha256:868db446935b5e84a7f24a9c199936357970cdc3cb467a1592ca02a33acaa2e4
+    ports:
+      - host_ip: 127.0.0.1
+        published: 7070
+        target: 3000
+        protocol: tcp
+    networks:
+      - isolated
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
 networks:
   isolated:
     driver: bridge
 volumes:
   psql-data:
   db-manager-data:
+  prometheus-storage:
+  grafana-storage:
