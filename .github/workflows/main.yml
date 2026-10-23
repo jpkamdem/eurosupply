@@ -37,7 +37,6 @@ jobs:
           docker load -i ../sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
           npm install
-          npm run test
           sonar-scanner-npm \
             -Dsonar.host.url=http://127.0.0.1:9000 \
             -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4 \
@@ -47,18 +46,18 @@ jobs:
     needs: before-testing
     services:
       database:
-      image: postgres:18.6-trixie@sha256:1267c7e692de235fda2a50dbcdbcbca4672ea6a0298576a6bd9d07cafc319b32
-      env:
-        POSTGRES_DB: eurosupply_db
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-       ports:
-        - 5432:5432
-      options: >-
-        --health-cmd "pg_isready -U postgres -d eurosupply"
-        --health-interval 10s
-        --health-timeout 5s
-        --health-retries 5
+        image: postgres:18.6-trixie@sha256:1267c7e692de235fda2a50dbcdbcbca4672ea6a0298576a6bd9d07cafc319b32
+        env:
+          POSTGRES_DB: eurosupply_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d eurosupply"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - name: Setting up server testing
