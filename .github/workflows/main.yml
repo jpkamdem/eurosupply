@@ -19,6 +19,7 @@ jobs:
           path: .
   web-testing:
     runs-on: ubuntu-24.04
+    needs: before-testing
     steps:
       - uses: actions/checkout@v4
       - name: Setting up web testing
@@ -41,6 +42,7 @@ jobs:
             -Dsonar.projectKey=myapp
   server-testing:
     runs-on: ubuntu-24.04
+    needs: before-testing
     steps:
       - uses: actions/checkout@v4
       - name: Setting up server testing
@@ -63,6 +65,7 @@ jobs:
             -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4
   web-building:
     runs-on: ubuntu-24.04
+    needs: web-testing
     steps:
       - uses: actions/checkout@v4
       - name: Building web image
@@ -76,6 +79,7 @@ jobs:
           path: .
   server-building:
     runs-on: ubuntu-24.04
+    needs: server-testing
     steps:
       - uses: actions/checkout@v4
       - name: Building server image
@@ -89,6 +93,7 @@ jobs:
           path: .
   deployment:
     runs-on: ubuntu-24.04
+    needs: [web-building, server-building]
     steps:
       - name: Retrieving web image
         uses: actions/download-artifact@v4
