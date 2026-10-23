@@ -1,0 +1,102 @@
+name: Pipeline
+on:
+  push:
+env:
+  APP_NAME: eurosupply
+  WEB_IMAGE_NAME: $APP_NAME/angular:1.0
+  SERVER_IMAGE_NAME: $APP_NAME/spring:1.0
+jobs:
+  before-testing:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Setting up Sonarqube
+        run: |
+          docker pull sonarqube:community
+          docker save sonarqube:community -o sonarqube.tar
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonarqube-artifact
+          path: .
+  web-testing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setting up web testing
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.21.0
+      - name: Retrieving Sonarqube image
+        uses: actions/download-artifact@v4
+        with:
+          name: sonarqube-artifact
+          path: .       
+      - name: Running web tests
+        run: |
+          docker run -dp 9000:9000 sonarqube:community
+          npm install
+          npm run test
+          sonar-scanner-npm \
+            -Dsonar.host.url=http://127.0.0.1:9000 \
+            -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4 \
+            -Dsonar.projectKey=myapp
+  server-testing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setting up server testing
+        uses: actions/setup-java@v4
+        with:
+          java-version: 25
+      - name: Retrieving Sonarqube image
+        uses: actions/download-artifact@v4
+        with:
+          name: sonarqube-artifact
+          path: .       
+      - name: Running server tests
+        run: |
+          docker run -dp 9000:9000 sonarqube:community
+          mvn dependency:go-offline -B
+          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=myapp \
+            -Dsonar.projectName='myapp' \
+            -Dsonar.host.url=http://127.0.0.1:9000 \
+            -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4
+  web-building:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Building web image
+        run: |
+          docker build -t $WEB_IMAGE_NAME .
+      - name: Exporting web image
+        run: docker save $WEB_IMAGE_NAME -o web-image.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-artifact
+          path: .
+  server-building:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Building server image
+        run: |
+          docker build -t $SERVER_IMAGE_NAME .
+      - name: Exporting web image
+        run: docker save $SERVER_IMAGE_NAME -o server-image.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: server-artifact
+          path: .
+  deployment:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Retrieving web image
+        uses: actions/download-artifact@v4
+        with:
+          name: web-artifact
+          path: .
+      - name: Retrieving server image
+        uses: actions/download-artifact@v4
+        with:
+          name: server-artifact
+          path: .
