@@ -2,8 +2,8 @@ name: Pipeline
 on:
   push:
 env:
-  SONARQUBE_IMAGE: sonarqube:community@sha256:bb022f5eb485497a672821166e469ce4e2289593d74356b6b327cd43d46e3ff0
-  POSTGRES_IMAGE: postgres:18.6-trixie@sha256:1267c7e692de235fda2a50dbcdbcbca4672ea6a0298576a6bd9d07cafc319b32
+  SONARQUBE_IMAGE: ronarqube:community@sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8
+  POSTGRES_IMAGE: postgres:18.6-trixie@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
   APP_NAME: eurosupply
   WEB_IMAGE_NAME: $APP_NAME/angular:1.0
   SERVER_IMAGE_NAME: $APP_NAME/spring:1.0
