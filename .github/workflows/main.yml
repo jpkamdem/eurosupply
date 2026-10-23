@@ -46,6 +46,7 @@ jobs:
         run: |
           docker load -i ../sonarqube.tar
           docker run -dp 9000:9000 $SONARQUBE_IMAGE
+          docker ps
           npm install
           sonar-scanner-npm \
             -Dsonar.host.url=http://127.0.0.1:9000 \
@@ -73,17 +74,12 @@ jobs:
           name: postgres-artifact
           path: .
       - run: |
-          docker run -d \
-           -p 5432:5432 \
-           -e POSTGRES_DB=eurosupply_db \
-           -e POSTGRES_USER=myuser
-           -e POSTGRES_PASSWORD=mypassword
-           -e "$GITHUB_WORKSPACE/migration.sql:/docker-entrypoint-initdb.d/migration.sql:ro" \
-           $POSTGRES_IMAGE
+          docker run -dp 5432:5432 -e POSTGRES_DB=eurosupply_db -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e "$GITHUB_WORKSPACE/migration.sql:/docker-entrypoint-initdb.d/migration.sql:ro" $POSTGRES_IMAGE
 
            until docker exec postgres pg_isready -U myuser -d eurosupply_db; do
             sleep 2
            done
+          docker ps
       - name: Running server tests
         working-directory: ./server
         env:
@@ -93,6 +89,7 @@ jobs:
         run: |
           docker load -i ../sonarqube.tar
           docker run -dp 9000:9000 $SONARQUBE_IMAGE
+          docker ps
           mvn dependency:go-offline -B
           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=myapp \
