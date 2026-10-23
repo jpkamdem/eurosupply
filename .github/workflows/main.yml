@@ -34,7 +34,7 @@ jobs:
       - name: Running web tests
         working-directory: ./web
         run: |
-          docker load -i sonarqube.tar
+          docker load -i ../sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
           npm install
           npm run test
@@ -61,7 +61,7 @@ jobs:
       - name: Running server tests
         working-directory: ./server
         run: |
-          docker load -i sonarqube.tar
+          docker load -i ../sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
           mvn dependency:go-offline -B
           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
