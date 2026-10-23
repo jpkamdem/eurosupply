@@ -33,6 +33,7 @@ jobs:
           path: .       
       - name: Running web tests
         run: |
+          docker load -i sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
           npm install
           npm run test
@@ -48,7 +49,9 @@ jobs:
       - name: Setting up server testing
         uses: actions/setup-java@v4
         with:
-          java-version: 25
+          distribution: temurin
+          java-version: '25'
+      - run: java --version
       - name: Retrieving Sonarqube image
         uses: actions/download-artifact@v4
         with:
@@ -56,6 +59,7 @@ jobs:
           path: .       
       - name: Running server tests
         run: |
+          docker load -i sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
           mvn dependency:go-offline -B
           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
