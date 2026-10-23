@@ -32,6 +32,7 @@ jobs:
           name: sonarqube-artifact
           path: .       
       - name: Running web tests
+        working-directory: ./web
         run: |
           docker load -i sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
@@ -58,6 +59,7 @@ jobs:
           name: sonarqube-artifact
           path: .       
       - name: Running server tests
+        working-directory: ./server
         run: |
           docker load -i sonarqube.tar
           docker run -dp 9000:9000 sonarqube:community
