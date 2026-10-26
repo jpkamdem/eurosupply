@@ -38,12 +38,6 @@ jobs:
     needs: before-testing
     steps:
       - uses: actions/checkout@v4
-      - name: Checking files
-        run: |
-          pwd
-          ls -la
-          ls -la ..
-          ls -la web
       - name: Setting up web testing
         uses: actions/setup-node@v4
         with:
@@ -53,6 +47,12 @@ jobs:
         with:
           name: sonarqube-artifact
           path: web/
+      - name: Checking files
+        run: |
+          pwd
+          ls -la
+          ls -la ..
+          ls -la web
       - name: Running web tests
         working-directory: web/
         run: |
@@ -74,12 +74,6 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
-      - name: Checking files
-        run: |
-          pwd
-          ls -la
-          ls -la ..
-          ls -la server
       - name: Setting up server testing
         uses: actions/setup-java@v4
         with:
@@ -96,6 +90,12 @@ jobs:
         with:
           name: postgres-artifact
           path: server/
+      - name: Checking files
+        run: |
+          pwd
+          ls -la
+          ls -la ..
+          ls -la server
       - name: Running server tests
         working-directory: server/
         run: |
