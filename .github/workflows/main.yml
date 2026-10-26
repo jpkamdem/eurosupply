@@ -33,13 +33,14 @@ jobs:
       - run: |
           pwd
           ls -la
-          ls -la web
-          ls -la server
   web-testing:
     runs-on: ubuntu-24.04
     needs: before-testing
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          ls -la web
+          ls -la server
       - name: Setting up web testing
         uses: actions/setup-node@v4
         with:
