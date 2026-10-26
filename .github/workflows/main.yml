@@ -35,6 +35,10 @@ jobs:
         with:
           name: postgres-artifact
           path: ./server/postgres.tar
+      - name: Checking files
+        run: |
+          ls -la
+          ls -la ..
   web-testing:
     runs-on: ubuntu-24.04
     needs: before-testing
