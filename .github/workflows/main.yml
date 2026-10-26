@@ -43,6 +43,7 @@ jobs:
           pwd
           ls -la
           ls -la ..
+          ls -la web
       - name: Setting up web testing
         uses: actions/setup-node@v4
         with:
@@ -78,6 +79,7 @@ jobs:
           pwd
           ls -la
           ls -la ..
+          ls -la server
       - name: Setting up server testing
         uses: actions/setup-java@v4
         with:
