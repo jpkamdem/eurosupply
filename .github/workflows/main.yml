@@ -23,8 +23,8 @@ jobs:
         with:
           name: sonarqube-artifact
           path: |
-            server/sonarqube.tar
-            web/sonarqube.tar
+            server/
+            web/
       - name: Setting up PostgreSQL
         run: |
           docker pull $POSTGRES_IMAGE
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: postgres-artifact
-          path: server/postgres.tar
+          path: server/
   web-testing:
     runs-on: ubuntu-24.04
     needs: before-testing
@@ -48,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sonarqube-artifact
-          path: web/sonarqube.tar
+          path: web/
       - name: Running web tests
         working-directory: web/
         run: |
@@ -83,12 +83,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sonarqube-artifact
-          path: server/sonarqube.tar
+          path: server/
       - name: Retrieving PostgreSQL image
         uses: actions/download-artifact@v4
         with:
           name: postgres-artifact
-          path: server/postgres.tar
+          path: server/
       - name: Running server tests
         working-directory: server/
         run: |
