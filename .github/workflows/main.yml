@@ -30,6 +30,11 @@ jobs:
         with:
           name: postgres-artifact
           path: server/
+      - run: |
+          pwd
+          ls -la
+          ls -la web
+          ls -la server
   web-testing:
     runs-on: ubuntu-24.04
     needs: before-testing
