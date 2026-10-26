@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: env test
         run: |
-          echo ${{ APP_NAME }}
           echo ${{ vars.APP_NAME }}
 # name: Pipeline run $GITHUB_RUN_NUMBER
 # on:
