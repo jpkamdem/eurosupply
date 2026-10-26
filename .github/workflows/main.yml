@@ -15,19 +15,25 @@ jobs:
       - name: Setting up Sonarqube
         run: |
           docker pull $SONARQUBE_IMAGE
-          docker save $SONARQUBE_IMAGE -o sonarqube.tar
+          docker save $SONARQUBE_IMAGE -o server/sonarqube.tar
+          ls -lh server/sonarqube.tar
       - uses: actions/upload-artifact@v4
         with:
           name: sonarqube-artifact
-          path: .
+          path: server/sonarqube.tar
+          if-no-files-found: error
+          compression-level: 0
       - name: Setting up PostgreSQL
         run: |
           docker pull $POSTGRES_IMAGE
-          docker save $POSTGRES_IMAGE -o postgres.tar
+          docker save $POSTGRES_IMAGE -o server/postgres.tar
+          ls -lh server/postgres.tar
       - uses: actions/upload-artifact@v4
         with:
           name: postgres-artifact
-          path: .
+          path: server/postgres.tar
+          if-no-files-found: error
+          compression-level: 0
       - run: |
           pwd
           ls -la
@@ -94,7 +100,7 @@ jobs:
           docker load -i ../postgres.tar
           docker load -i ../sonarqube.tar
           docker run \
-            -dp $DB_PORT:$DB_PORT \
+            -dp 5432:5432 \
             -e POSTGRES_DB=$POSTGRES_DB \
             -e POSTGRES_USER=$POSTGRES_USER \
             -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
