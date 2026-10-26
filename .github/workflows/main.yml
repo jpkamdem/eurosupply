@@ -5,7 +5,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-24.04
-    environment: ${{ inputs.global }}
+    environment: 
+      name: global
+      url: https://github.com/jpkamdem/eurosupply/settings/environments/25352846635/edit
     steps:
       - name: env test
         run: |
