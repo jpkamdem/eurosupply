@@ -5,6 +5,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-24.04
+    environment: ${{ inputs.global }}
     steps:
       - name: env test
         run: |
