@@ -1,140 +1,145 @@
-name: Pipeline
+name: test
 on:
   push:
-env:
-  SONARQUBE_IMAGE: sonarqube:community@sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8
-  POSTGRES_IMAGE: postgres:18.6-trixie@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
-  APP_NAME: eurosupply
-  WEB_IMAGE_NAME: $APP_NAME/angular:1.0
-  SERVER_IMAGE_NAME: $APP_NAME/spring:1.0
+  workflow_dispatch:
 jobs:
-  before-testing:
+  test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Setting up Sonarqube
+      - name: env test
         run: |
-          docker pull $SONARQUBE_IMAGE
-          docker save $SONARQUBE_IMAGE -o sonarqube.tar
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sonarqube-artifact
-          path: .
-      - name: Setting up PostgreSQL
-        run: |
-          docker pull $POSTGRES_IMAGE
-          docker save $POSTGRES_IMAGE -o postgres.tar
-      - uses: actions/upload-artifact@v4
-        with:
-          name: postgres-artifact
-          path: .
-  web-testing:
-    runs-on: ubuntu-24.04
-    needs: before-testing
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setting up web testing
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.21.0
-      - name: Retrieving Sonarqube image
-        uses: actions/download-artifact@v4
-        with:
-          name: sonarqube-artifact
-          path: .       
-      - name: Running web tests
-        working-directory: ./web
-        run: |
-          docker load -i ../sonarqube.tar
-          docker run -dp 9000:9000 $SONARQUBE_IMAGE
-          docker ps
-          npm install
-          sonar-scanner-npm \
-            -Dsonar.host.url=http://127.0.0.1:9000 \
-            -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4 \
-            -Dsonar.projectKey=myapp
-  server-testing:
-    runs-on: ubuntu-24.04
-    needs: before-testing
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setting up server testing
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '25'
-      - run: java --version
-      - name: Retrieving Sonarqube image
-        uses: actions/download-artifact@v4
-        with:
-          name: sonarqube-artifact
-          path: .
-      - name: Retrieving PostgreSQL image
-        uses: actions/download-artifact@v4
-        with:
-          name: postgres-artifact
-          path: .
-      - run: |
-          docker run -dp 5432:5432 -e POSTGRES_DB=eurosupply_db -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e "$GITHUB_WORKSPACE/migration.sql:/docker-entrypoint-initdb.d/migration.sql:ro" $POSTGRES_IMAGE
-
-           until docker exec postgres pg_isready -U myuser -d eurosupply_db; do
-            sleep 2
-           done
-          docker ps
-      - name: Running server tests
-        working-directory: ./server
-        env:
-          SPRING_DATASOURE_URL: jdbc:postgresql://$database:$5432/eurosupply_db
-          SPRING_DATASOURCE_USERNAME: myuser@gmail.com
-          SPRING_DATASOURCE_PASSWORD: mypassword
-        run: |
-          docker load -i ../sonarqube.tar
-          docker run -dp 9000:9000 $SONARQUBE_IMAGE
-          docker ps
-          mvn dependency:go-offline -B
-          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=myapp \
-            -Dsonar.projectName='myapp' \
-            -Dsonar.host.url=http://127.0.0.1:9000 \
-            -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4
-  web-building:
-    runs-on: ubuntu-24.04
-    needs: web-testing
-    steps:
-      - uses: actions/checkout@v4
-      - name: Building web image
-        run: |
-          docker build -t $WEB_IMAGE_NAME .
-      - name: Exporting web image
-        run: docker save $WEB_IMAGE_NAME -o web-image.tar
-      - uses: actions/upload-artifact@v4
-        with:
-          name: web-artifact
-          path: .
-  server-building:
-    runs-on: ubuntu-24.04
-    needs: server-testing
-    steps:
-      - uses: actions/checkout@v4
-      - name: Building server image
-        run: |
-          docker build -t $SERVER_IMAGE_NAME .
-      - name: Exporting web image
-        run: docker save $SERVER_IMAGE_NAME -o server-image.tar
-      - uses: actions/upload-artifact@v4
-        with:
-          name: server-artifact
-          path: .
-  deployment:
-    runs-on: ubuntu-24.04
-    needs: [web-building, server-building]
-    steps:
-      - name: Retrieving web image
-        uses: actions/download-artifact@v4
-        with:
-          name: web-artifact
-          path: .
-      - name: Retrieving server image
-        uses: actions/download-artifact@v4
-        with:
-          name: server-artifact
-          path: .
+          echo {{ APP_NAME }}
+          echo {{ varrs.APP_NAME }}
+          echo {{ global.APP_NAME }}
+# name: Pipeline run $GITHUB_RUN_NUMBER
+# on:
+#   push:
+#   workflow_dispatch:
+# env:
+#   SONARQUBE_IMAGE: sonarqube:community@sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8
+#   POSTGRES_IMAGE: postgres:18.6-trixie@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
+#   APP_NAME: eurosupply
+#   WEB_IMAGE_NAME: $APP_NAME/angular:1.$GITHUB_RUN_NUMBER
+#   SERVER_IMAGE_NAME: $APP_NAME/spring:1.$GITHUB_RUN_NUMBER
+# jobs:
+#   before-testing:
+#     runs-on: ubuntu-24.04
+#     steps:
+#       - name: Setting up Sonarqube
+#         run: |
+#           docker pull $SONARQUBE_IMAGE
+#           docker save $SONARQUBE_IMAGE -o sonarqube.tar
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: sonarqube-artifact
+#           path: |
+#             server/
+#             web/
+#       - name: Setting up PostgreSQL
+#         run: |
+#           docker pull $POSTGRES_IMAGE
+#           docker save $POSTGRES_IMAGE -o postgres.tar
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: postgres-artifact
+#           path: server/
+#   web-testing:
+#     runs-on: ubuntu-24.04
+#     needs: before-testing
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Setting up web testing
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 24.21.0
+#       - name: Retrieving Sonarqube image
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: sonarqube-artifact
+#           path: web/
+#       - name: Running web tests
+#         working-directory: ./web
+#         run: |
+#           docker load -i sonarqube.tar
+#           docker run -dp 9000:9000 $SONARQUBE_IMAGE
+#           docker ps
+#           npm install
+#           sonar-scanner-npm \
+#             -Dsonar.host.url=http://127.0.0.1:9000 \
+#             -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4 \
+#             -Dsonar.projectKey=myapp
+#   server-testing:
+#     runs-on: ubuntu-24.04
+#     needs: before-testing
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Setting up server testing
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: "25"
+#       - run: java --version
+#       - name: Retrieving Sonarqube image
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: sonarqube-artifact
+#           path: server/
+#       - name: Retrieving PostgreSQL image
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: postgres-artifact
+#           path: server/
+#       - name: Running server tests
+#         working-directory: ./server
+#         run: |
+#           docker load -i sonarqube.tar
+#           docker run -dp 9000:9000 $SONARQUBE_IMAGE
+#           docker ps
+#           mvn dependency:go-offline -B
+#           mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+#             -Dsonar.projectKey=myapp \
+#             -Dsonar.projectName='myapp' \
+#             -Dsonar.host.url=http://127.0.0.1:9000 \
+#             -Dsonar.token=sqp_f734fb1b8fcc54e680e89215cee5e161ad8798e4
+#   web-building:
+#     runs-on: ubuntu-24.04
+#     needs: web-testing
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Building web image
+#         run: |
+#           docker build -t $WEB_IMAGE_NAME .
+#       - name: Exporting web image
+#         run: docker save $WEB_IMAGE_NAME -o web-image.tar
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: web-artifact
+#           path: .
+#   server-building:
+#     runs-on: ubuntu-24.04
+#     needs: server-testing
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Building server image
+#         run: |
+#           docker build -t $SERVER_IMAGE_NAME .
+#       - name: Exporting web image
+#         run: docker save $SERVER_IMAGE_NAME -o server-image.tar
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: server-artifact
+#           path: .
+#   deployment:
+#     runs-on: ubuntu-24.04
+#     needs: [web-building, server-building]
+#     steps:
+#       - name: Retrieving web image
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: web-artifact
+#           path: .
+#       - name: Retrieving server image
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: server-artifact
+#           path: .
