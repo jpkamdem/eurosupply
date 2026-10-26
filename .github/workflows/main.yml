@@ -12,6 +12,7 @@ jobs:
   before-testing:
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
       - name: Setting up Sonarqube
         run: |
           docker pull $SONARQUBE_IMAGE
