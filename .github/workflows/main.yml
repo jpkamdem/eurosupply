@@ -18,7 +18,8 @@ jobs:
           docker pull $SONARQUBE_IMAGE
           docker save $SONARQUBE_IMAGE -o server/sonarqube.tar
           ls -lh server/sonarqube.tar
-      - uses: actions/upload-artifact@v4
+      - name: Uploading Sonarqube artifact
+        uses: actions/upload-artifact@v4
         with:
           name: sonarqube-artifact
           path: server/sonarqube.tar
@@ -29,7 +30,8 @@ jobs:
           docker pull $POSTGRES_IMAGE
           docker save $POSTGRES_IMAGE -o server/postgres.tar
           ls -lh server/postgres.tar
-      - uses: actions/upload-artifact@v4
+      - name: Uploading PostgreSQL artifact
+        uses: actions/upload-artifact@v4
         with:
           name: postgres-artifact
           path: server/postgres.tar
@@ -58,7 +60,7 @@ jobs:
           pwd
           ls -la
           ls -la ..
-          docker load -i ../sonarqube.tar
+          docker load -i sonarqube.tar
           docker run -dp 9000:9000 $SONARQUBE_IMAGE
           npm install
           sonar-scanner-npm \
@@ -98,8 +100,8 @@ jobs:
           pwd
           ls -la
           ls -la ..
-          docker load -i ../postgres.tar
-          docker load -i ../sonarqube.tar
+          docker load -i postgres.tar
+          docker load -i sonarqube.tar
           docker run \
             -dp 5432:5432 \
             -e POSTGRES_DB=$POSTGRES_DB \
