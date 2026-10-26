@@ -17,14 +17,14 @@ jobs:
         run: |
           docker pull $SONARQUBE_IMAGE
           docker save $SONARQUBE_IMAGE -o server/sonarqube.tar
-          ls -lh server/sonarqube.tar
+          cp server/sonarqube.tar web/sonarqube.tar
       - name: Uploading Sonarqube artifact
         uses: actions/upload-artifact@v4
         with:
           name: sonarqube-artifact
-          path: server/sonarqube.tar
-          if-no-files-found: error
-          compression-level: 0
+          path: |
+            server/sonarqube.tar
+            web/sonarqube.tar
       - name: Setting up PostgreSQL
         run: |
           docker pull $POSTGRES_IMAGE
@@ -35,11 +35,6 @@ jobs:
         with:
           name: postgres-artifact
           path: server/postgres.tar
-          if-no-files-found: error
-          compression-level: 0
-      - run: |
-          pwd
-          ls -la
   web-testing:
     runs-on: ubuntu-24.04
     needs: before-testing
@@ -53,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sonarqube-artifact
-          path: .
+          path: web/sonarqube.tar
       - name: Running web tests
         working-directory: web/
         run: |
@@ -88,12 +83,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sonarqube-artifact
-          path: server/
+          path: server/sonarqube.tar
       - name: Retrieving PostgreSQL image
         uses: actions/download-artifact@v4
         with:
           name: postgres-artifact
-          path: .
+          path: server/postgres.tar
       - name: Running server tests
         working-directory: server/
         run: |
@@ -124,7 +119,7 @@ jobs:
         run: |
           docker build -t $WEB_IMAGE_NAME .
       - name: Exporting web image
-        run: docker save $WEB_IMAGE_NAME -o web-image.tar
+        run: docker save $WEB_IMAGE_NAME -o web.tar
       - uses: actions/upload-artifact@v4
         with:
           name: web-artifact
@@ -138,7 +133,7 @@ jobs:
         run: |
           docker build -t $SERVER_IMAGE_NAME .
       - name: Exporting web image
-        run: docker save $SERVER_IMAGE_NAME -o server-image.tar
+        run: docker save $SERVER_IMAGE_NAME -o server.tar
       - uses: actions/upload-artifact@v4
         with:
           name: server-artifact
@@ -151,9 +146,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: web-artifact
-          path: .
+          path: web.tar
       - name: Retrieving server image
         uses: actions/download-artifact@v4
         with:
           name: server-artifact
-          path: .
+          path: server.tar
