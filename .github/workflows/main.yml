@@ -9,7 +9,7 @@ jobs:
       - name: env test
         run: |
           echo {{ APP_NAME }}
-          echo {{ varrs.APP_NAME }}
+          echo {{ vars.APP_NAME }}
           echo {{ global.APP_NAME }}
 # name: Pipeline run $GITHUB_RUN_NUMBER
 # on:
