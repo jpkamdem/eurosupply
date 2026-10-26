@@ -38,9 +38,11 @@ jobs:
     needs: before-testing
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          ls -la web
-          ls -la server
+      - name: Checking files
+        run: |
+          pwd
+          ls -la
+          ls -la ..
       - name: Setting up web testing
         uses: actions/setup-node@v4
         with:
@@ -71,6 +73,11 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
+      - name: Checking files
+        run: |
+          pwd
+          ls -la
+          ls -la ..
       - name: Setting up server testing
         uses: actions/setup-java@v4
         with:
