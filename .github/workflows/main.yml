@@ -7,6 +7,7 @@ on:
 jobs:
   web-building:
     runs-on: ubuntu-24.04
+    environment: global
     env:
       WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.${{ github.run_number }}
 
@@ -29,6 +30,7 @@ jobs:
 
   server-building:
     runs-on: ubuntu-24.04
+    environment: global
     env:
       SERVER_IMAGE: ${{ vars.APP_NAME }}/spring:1.${{ github.run_number }}
 
