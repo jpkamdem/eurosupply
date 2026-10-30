@@ -1,5 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { provideHttpClient } from '@angular/common/http';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MedicItem } from './medic-item';
 
 describe('MedicItem', () => {
@@ -8,12 +11,22 @@ describe('MedicItem', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MedicItem]
+      imports: [MedicItem],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(MedicItem);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('id', 1);
+    fixture.componentRef.setInput('name', 'Médicament');
+    fixture.componentRef.setInput('quantity', 5);
+    fixture.componentRef.setInput('expiration', new Date());
+
     fixture.detectChanges();
   });
 

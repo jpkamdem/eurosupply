@@ -1,5 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../app.routes';
 import { Home } from './home';
 
 describe('Home', () => {
@@ -8,9 +12,13 @@ describe('Home', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Home]
+      imports: [Home],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideRouter(routes)
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Home);
     component = fixture.componentInstance;

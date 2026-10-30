@@ -1,5 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../app.routes';
 import { QuickLink } from './quick-link';
 
 describe('QuickLink', () => {
@@ -8,12 +12,19 @@ describe('QuickLink', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuickLink]
+      imports: [QuickLink],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideRouter(routes)]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(QuickLink);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('path', 'materiel');
+    fixture.componentRef.setInput('textLink', 'Matériel');
+
     fixture.detectChanges();
   });
 

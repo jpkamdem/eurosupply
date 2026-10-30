@@ -5,8 +5,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  web-testing:
+    runs-on: ubuntu-24.04
+    environment: global
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Run web tests
+        working-directory: web
+        run: npm run test
+
   web-building:
     runs-on: ubuntu-24.04
+    needs: [web-testing]
     environment: global
     env:
       WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.${{ github.run_number }}
@@ -25,12 +42,6 @@ jobs:
         with:
           name: web-artifact
           path: web.tar
-          if-no-files-found: error
-          compression-level: 0
-
-      - name: Check files
-        run: |
-          ls -la
 
   server-building:
     runs-on: ubuntu-24.04
@@ -52,12 +63,6 @@ jobs:
         with:
           name: server-artifact
           path: server.tar
-          if-no-files-found: error
-          compression-level: 0
-
-      - name: Check files
-        run: |
-          ls -la
 
   deployment:
     runs-on: ubuntu-24.04
@@ -75,7 +80,3 @@ jobs:
         with:
           name: server-artifact
           path: .
-
-      - name: Check files
-        run: |
-          ls -la

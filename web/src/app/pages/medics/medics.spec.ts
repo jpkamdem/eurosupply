@@ -1,5 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { provideHttpClient } from '@angular/common/http';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../app.routes';
 import { Medics } from './medics';
 
 describe('Medics', () => {
@@ -8,9 +13,14 @@ describe('Medics', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Medics]
+      imports: [Medics],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideRouter(routes)
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Medics);
     component = fixture.componentInstance;
