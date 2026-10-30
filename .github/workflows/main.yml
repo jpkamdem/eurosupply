@@ -4,12 +4,11 @@ on:
   push:
   workflow_dispatch:
 
-
 jobs:
   web-building:
     runs-on: ubuntu-24.04
     env:
-      WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.$GGITHUB_RUN_NUMBER
+      WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.${{ github.run.number }}
 
     steps:
       - name: Checkout repository
@@ -24,12 +23,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: web-artifact
-          path: .
+          path: web.tar
+          if-no-files-found: error
+          compression-level: 0
 
   server-building:
     runs-on: ubuntu-24.04
     env:
-      SERVER_IMAGE: ${{ vars.APP_NAME }}/spring:1.$GITHUB_RUN_NUMBER
+      SERVER_IMAGE: ${{ vars.APP_NAME }}/spring:1.${{ github.run.number }}
 
     steps:
       - name: Checkout repository
@@ -44,7 +45,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: server-artifact
-          path: .
+          path: server.tar
+          if-no-files-found: error
+          compression-level: 0
 
   deployment:
     runs-on: ubuntu-24.04
@@ -55,13 +58,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: web-artifact
-          path: .
+          path: web.tar
 
       - name: Download server image
         uses: actions/download-artifact@v4
         with:
           name: server-artifact
-          path: .
+          path: server.tar
 
       - name: Check files
         run: ls -la
