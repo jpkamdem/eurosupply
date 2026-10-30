@@ -35,11 +35,16 @@ jobs:
         ports:
           - 5432:5432
         volumes:
-          - ./migration.sql://docker-entrypoint-initdb.d/migration.sql:ro
+          - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql:ro
         env:
           POSTGRES_DB: ${{ vars.APP_NAME }}_db
           POSTGRES_USER: ${{ secrets.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD}}
+        options: >-
+          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }} -d ${{ vars.APP_NAME }}_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout repository
@@ -57,7 +62,7 @@ jobs:
 
       - name: Run server tests
         working-directory: server
-        run: ./mvnw clean test
+        run: ./mvnw clean verify
 
   web-building:
     runs-on: ubuntu-24.04
