@@ -68,16 +68,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: web-artifact
-          path: web.tar
+          path: .
 
       - name: Download server image
         uses: actions/download-artifact@v4
         with:
           name: server-artifact
-          path: server.tar
+          path: .
 
       - name: Check files
         run: |
           ls -la
-          ls -la server.tar
-          ls -la web.tar
