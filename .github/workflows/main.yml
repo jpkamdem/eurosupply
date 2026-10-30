@@ -8,7 +8,7 @@ jobs:
   web-building:
     runs-on: ubuntu-24.04
     env:
-      WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.${{ github.run.number }}
+      WEB_IMAGE: ${{ vars.APP_NAME }}/angular:1.${{ github.run_number }}
 
     steps:
       - name: Checkout repository
@@ -30,7 +30,7 @@ jobs:
   server-building:
     runs-on: ubuntu-24.04
     env:
-      SERVER_IMAGE: ${{ vars.APP_NAME }}/spring:1.${{ github.run.number }}
+      SERVER_IMAGE: ${{ vars.APP_NAME }}/spring:1.${{ github.run_number }}
 
     steps:
       - name: Checkout repository
