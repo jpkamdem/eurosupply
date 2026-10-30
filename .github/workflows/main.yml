@@ -40,7 +40,7 @@ jobs:
           POSTGRES_DB: ${{ vars.APP_NAME }}_db
           POSTGRES_USER: ${{ secrets.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD}}
-        options: >
+        options: |
           --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }} -d ${{ vars.APP_NAME }}_db"
           --health-interval 10s
           --health-timeout 5s
