@@ -69,4 +69,7 @@ jobs:
           path: server.tar
 
       - name: Check files
-        run: ls -la
+        run: |
+          ls -la
+          ls -la server.tar
+          ls -la web.tar
