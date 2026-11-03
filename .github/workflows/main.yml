@@ -33,8 +33,6 @@ jobs:
         ports:
           - ${{ vars.DB_PORT }}:${{ vars.DB_PORT }}
         env:
-          APP_NAME: ${{ vars.APP_NAME }}
-          SPRING_DATASOURCE_URL: jdbc://postgresql://127.0.0.1:${{ vars.DB_PORT }}/${{ vars.APP_NAME }}_db
           POSTGRES_DB: ${{ vars.APP_NAME }}_db
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -48,7 +46,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Initialisation de la database
+      - name: Initialize database
         run: |
           docker run --rm \
             --network host \
@@ -71,6 +69,12 @@ jobs:
 
       - name: Run server tests
         working-directory: server
+        env:
+          APP_NAME: ${{ vars.APP_NAME }}
+          SPRING_DATASOURCE_URL: jdbc://postgresql://127.0.0.1:${{ vars.DB_PORT }}/${{ vars.APP_NAME }}_db
+          POSTGRES_DB: ${{ vars.APP_NAME }}_db
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: ./mvnw clean verify
 
   web-building:
