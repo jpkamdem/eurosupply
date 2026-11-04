@@ -35,11 +35,11 @@ server:
 
 spring:
   application:
-    name: ${APP_NAME:eurosupply}
+    name: ${APP_NAME}
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/eurosupply_db}
-    username: ${POSTGRES_USER:myuser}
-    password: ${POSTGRES_PASSWORD:mypassword}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -48,11 +48,15 @@ spring:
       ddl-auto: validate
 ```
 
+```sh
+./scripts/start.sh
+```
+
 ### API Endpoints
 
 #### Healthcheck
 
-- GET /health/ping
+- GET /actuator/health
 
 #### Food
 
