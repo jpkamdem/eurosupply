@@ -20,7 +20,7 @@ RUN npm run build
 
 FROM node:lts-trixie-slim@sha256:f5da0a865cd28d1731e98c901355b4f3192a526a397f9f5a52607940c3b63caf AS angular
 WORKDIR /app
-COPY --from=web-production-deps /app/node_modules .
+COPY --from=web-production-deps /app/node_modules ./node_modules
 COPY --from=web-build /app/dist/web .
 USER node
 CMD [ "node", "./server/server.mjs" ]

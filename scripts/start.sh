@@ -23,6 +23,12 @@ do
   read -p "DB_PASSWORD=" DB_PASSWORD
 done
 
+if [ "${engine}" = "d" ]; then
+engine="docker"
+else
+engine="podman"
+fi
+
 services_run() {
 "${engine}" run \
   --rm \
@@ -70,12 +76,6 @@ services_run() {
   -v grafana-storage:/var/lib/grafana \
   grafana/grafana:nightly-distroless-slim@sha256:868db446935b5e84a7f24a9c199936357970cdc3cb467a1592ca02a33acaa2e4
 }
-
-if [ "${engine}" = "d" ]; then
-engine="docker"
-else
-engine="podman"
-fi
 
 echo "Techno choisie : "${engine}""
 network=$("${engine}" network ls | grep "${APP_NAME}-isolated")
